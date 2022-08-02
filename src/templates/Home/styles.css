@@ -1,0 +1,22 @@
+body {
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
+.container {
+  min-height: 100vh;
+  background-color: burlywood;
+  padding: 50px;
+}
+
+.btn-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+.searchContainer {
+  display: flex;
+  justify-items: center;
+  width: 100vw;
+  margin: 4px;
+}

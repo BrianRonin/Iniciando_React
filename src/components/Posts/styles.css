@@ -1,0 +1,12 @@
+.posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  text-align: center;
+  background: rgba(255, 255, 255, 0.446);
+  gap: 30px;
+}
+
+.noResult {
+  font-size: 50px;
+  text-align: center;
+}

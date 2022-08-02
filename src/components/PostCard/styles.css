@@ -1,0 +1,18 @@
+.post {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 100ms ease-in-out;
+  margin-bottom: 20px;
+}
+
+.post:hover {
+  transform: scale(1.05);
+}
+
+.post-content {
+  color: rgba(255, 145, 0, 0.794);
+  padding: 30px;
+}
+
+.post img {
+  max-width: 100%;
+}
