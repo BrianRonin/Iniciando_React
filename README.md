@@ -1,5 +1,3 @@
-##finalmente iniciando react basicamente##
-d Sou a branch dev
-estudei muito o basico o solido de js e ts pra ir pra react.
-xxxxxxxxxxxxx
-dddddddddddddd
+## Finalmente iniciando react basicamente
+
+Estudei muito a base js e ts pra ir pra react com um conhecimento solido.
