@@ -9,20 +9,23 @@ export const Home = () => {
   const [posts, setPosts] = useState([])
   const [allPosts, setAllPosts] = useState([])
   const [postsPerPage, setPostsPerPage] = useState(10)
-  const [filteredPosts, setFilteredPosts] = useState([])
+  //const [filteredPosts, setFilteredPosts] = useState([])
   const [searchValue, setSearchValue] = useState('')
 
   const isEnPosts = posts.length === allPosts.length
 
   const handleSearch = (e) => {
     const { value } = e.target
-
-    setFilteredPosts(
-      allPosts.filter((e) => {
-        e.title.toLowerCase().includes(value.toLowerCase())
-      })
-    )
+    setSearchValue(value)
   }
+
+  const filteredPosts = !!searchValue
+    ? allPosts.filter((e) => {
+        return e.title
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
+      })
+    : posts
 
   useEffect(() => {
     handleLoadPosts()
@@ -55,7 +58,7 @@ export const Home = () => {
           )}
         </div>
         {!searchValue && <Posts posts={posts} />}
-        {searchValue.length > 0 && <Posts posts={filteredPosts} />}
+        {!!searchValue && <Posts posts={filteredPosts} />}
         {filteredPosts.length === 0 && <h1>Sem posts</h1>}
         <div className='btn-container'>
           {!searchValue && (
