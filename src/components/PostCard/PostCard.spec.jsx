@@ -6,11 +6,12 @@ const props = postCardPropsMock
 describe('<PostCard />', () => {
   it('should render PostCard correctly', () => {
     render(<PostCard {...props} />)
+    expect(screen.getByRole('img', { name: props.alt })).toHaveAttribute(
+      'src',
+      props.cover,
+    )
     expect(
-      screen.getByRole('img', { name: props.alt })
-    ).toHaveAttribute('src', props.cover)
-    expect(
-      screen.getByRole('heading', { name: props.title })
+      screen.getByRole('heading', { name: props.title }),
     ).toBeInTheDocument()
     expect(screen.getByText(props.body)).toBeInTheDocument()
   })

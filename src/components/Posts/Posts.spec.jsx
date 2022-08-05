@@ -31,11 +31,10 @@ describe('<Posts/>', () => {
   it('should render posts', () => {
     render(<Posts {...props} />)
     expect(
-      screen.getAllByRole('heading', { name: /Um titulo foda/i })
+      screen.getAllByRole('heading', { name: /Um titulo foda/i }),
     ).toHaveLength(3) // eu espero que tenha selecionado 3
-    expect(
-      screen.getAllByRole('img', { name: /Um alt/i })
-    ).toHaveLength(3) // eu espero que tenha selecionado 3
+    // eu espero que tenha selecionado 3
+    expect(screen.getAllByRole('img', { name: /Um alt/i })).toHaveLength(3)
     expect(screen.getAllByText(/Um body/i)).toHaveLength(3)
     expect(screen.getAllByText(/Um body/i)).toHaveLength(3)
   })

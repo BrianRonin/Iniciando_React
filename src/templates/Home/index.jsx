@@ -1,5 +1,5 @@
 import './styles.css'
-import { Component, useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../components/Button'
 import { loadPosts } from '../../utils/load-posts'
 import { Posts } from '../../components/Posts'
@@ -8,7 +8,7 @@ import { SearchBar } from '../../components/SearchBar'
 export const Home = () => {
   const [posts, setPosts] = useState([])
   const [allPosts, setAllPosts] = useState([])
-  const [postsPerPage, setPostsPerPage] = useState(10)
+  const [postsPerPage] = useState(10)
   //const [filteredPosts, setFilteredPosts] = useState([])
   const [searchValue, setSearchValue] = useState('')
 
@@ -19,11 +19,9 @@ export const Home = () => {
     setSearchValue(value)
   }
 
-  const filteredPosts = !!searchValue
+  const filteredPosts = searchValue
     ? allPosts.filter((e) => {
-        return e.title
-          .toLowerCase()
-          .includes(searchValue.toLowerCase())
+        return e.title.toLowerCase().includes(searchValue.toLowerCase())
       })
     : posts
 
@@ -43,14 +41,14 @@ export const Home = () => {
 
   return (
     <>
-      <section className='container'>
+      <section className="container">
         <SearchBar
-          type='search'
+          type="search"
           value={searchValue}
           onChange={handleSearch}
           placeholder={'pesquise aqui'}
         />
-        <div className='searchContainer'>
+        <div className="searchContainer">
           {!!searchValue && (
             <>
               <h1>Resultados: {filteredPosts.length}</h1>
@@ -60,15 +58,11 @@ export const Home = () => {
         {!searchValue && <Posts posts={posts} />}
         {!!searchValue && <Posts posts={filteredPosts} />}
         {filteredPosts.length === 0 && <h1>Sem posts</h1>}
-        <div className='btn-container'>
+        <div className="btn-container">
           {!searchValue && (
             <Button
               onClick={loadMorePosts}
-              text={
-                isEnPosts
-                  ? 'não tem mais blogs pra ver XC'
-                  : 'Ver mais'
-              }
+              text={isEnPosts ? 'não tem mais blogs pra ver XC' : 'Ver mais'}
               disabled={isEnPosts}
             ></Button>
           )}

@@ -1,39 +1,28 @@
 const { render, screen } = require('@testing-library/react')
 import userEvent from '@testing-library/user-event'
-import { click } from '@testing-library/user-event/dist/click'
-import { keyboard } from '@testing-library/user-event/dist/keyboard'
-import { type } from '@testing-library/user-event/dist/type'
 import { SearchBar } from '.'
 
-// setup function
-function setup(jsx) {
-  return {
-    user: userEvent.setup(),
-    ...render(jsx),
-  }
-}
-
-test('render with a setup function', async () => {
-  const { user } = setup(<SearchBar />)
-})
-
-const props = {
-  type: 'text',
-  defaultValue: '',
-  onchange: () => 'x',
-  placeholder: 'digite aqui',
-}
-
 describe('<ShearchBar />', () => {
-  it('should call handleChange function on each key', () => {
-    const user = userEvent.setup()
-    render(<SearchBar {...props} />)
+  it('should call handleChange function on each key and value', () => {
+    const fn = jest.fn()
+    render(
+      <SearchBar
+        onChange={fn}
+        placeholder="pesquise aqui"
+        value="valor"
+      />,
+    )
+    const input = screen.getByPlaceholderText('pesquise aqui')
+    userEvent.type(input, 'abc')
+    expect(input.value).toBe('valorabc')
+    expect(fn).toBeCalledTimes(3)
+  })
 
-    const input = screen.getByPlaceholderText('digite aqui')
-    const onchangeInput = jest.spyOn(input, 'onchange', 'get')
-    // input.focus()
-    // user.keyboard('abc')
-    // console.log(onchangeInput)
-    // expect(onchangeInput).toHaveBeenCalledTimes(3)
+  it('should match snapshot', () => {
+    const fn = jest.fn()
+    const { container } = render(
+      <SearchBar onChange={fn} placeholder={'pesquise aqui'} />,
+    )
+    expect(container).toMatchSnapshot()
   })
 })
