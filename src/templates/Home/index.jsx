@@ -4,11 +4,12 @@ import { Button } from '../../components/Button'
 import { loadPosts } from '../../utils/load-posts'
 import { Posts } from '../../components/Posts'
 import { SearchBar } from '../../components/SearchBar'
+import { number } from 'prop-types'
 
-export const Home = () => {
+export const Home = (props) => {
   const [posts, setPosts] = useState([])
   const [allPosts, setAllPosts] = useState([])
-  const [postsPerPage] = useState(10)
+  const [postsPerPage] = useState(props.pppage)
   //const [filteredPosts, setFilteredPosts] = useState([])
   const [searchValue, setSearchValue] = useState('')
 
@@ -62,8 +63,8 @@ export const Home = () => {
           {!searchValue && (
             <Button
               onClick={loadMorePosts}
-              text={isEnPosts ? 'não tem mais blogs pra ver XC' : 'Ver mais'}
               disabled={isEnPosts}
+              text={isEnPosts ? 'não tem mais blogs pra ver XC' : 'Ver mais'}
             ></Button>
           )}
         </div>
@@ -72,6 +73,6 @@ export const Home = () => {
   )
 }
 
-// export class Home extends Component {
-
-//   render() {
+Home.propTypes = {
+  pppage: number,
+}

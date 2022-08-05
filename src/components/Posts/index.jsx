@@ -1,5 +1,6 @@
 import './styles.css'
 import { PostCard } from '../PostCard'
+import { array } from 'prop-types'
 export const Posts = ({ posts = [] }) => (
   <div className="posts">
     {posts &&
@@ -14,3 +15,7 @@ export const Posts = ({ posts = [] }) => (
       ))}
   </div>
 )
+
+Posts.propTypes = {
+  posts: array,
+}
