@@ -1,17 +1,21 @@
 import './styles.css'
 import { PostCard } from '../PostCard'
-export const Posts = ({ posts }) => (
-  <>
-    <div className='posts'>
-      {posts.map((post) => (
+import { array } from 'prop-types'
+export const Posts = ({ posts = [] }) => (
+  <div className="posts">
+    {posts &&
+      posts.map((post, indice) => (
         <PostCard //recebe atributos como um obj no props
-          key={post.id}
+          key={indice}
           cover={post.cover}
           title={post.title}
           body={post.body}
           alt={post.alt}
         />
       ))}
-    </div>
-  </>
+  </div>
 )
+
+Posts.propTypes = {
+  posts: array,
+}

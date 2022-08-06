@@ -1,101 +1,78 @@
 import './styles.css'
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../components/Button'
 import { loadPosts } from '../../utils/load-posts'
 import { Posts } from '../../components/Posts'
 import { SearchBar } from '../../components/SearchBar'
+import { number } from 'prop-types'
 
-export class Home extends Component {
-  state = {
-    counter: 0,
-    posts: [],
-    allPosts: [],
-    page: 0,
-    postsPerPage: 10,
-    searchValue: '',
-    filteredPosts: [],
-  }
+export const Home = (props) => {
+  const [posts, setPosts] = useState([])
+  const [allPosts, setAllPosts] = useState([])
+  const [postsPerPage] = useState(props.pppage)
+  //const [filteredPosts, setFilteredPosts] = useState([])
+  const [searchValue, setSearchValue] = useState('')
 
-  loadPosts = async () => {
-    const { postsPerPage } = this.state
-    const postsAndPhotos = await loadPosts()
-    const posts = postsAndPhotos.slice(0, postsPerPage)
-    this.setState({
-      posts: posts,
-      allPosts: postsAndPhotos,
-    })
-  }
+  const isEnPosts = posts.length === allPosts.length
 
-  async componentDidMount() {
-    await this.loadPosts()
-    console.log('conectado ao mongo db')
-  }
-
-  loadMorePosts = () => {
-    const { postsPerPage, posts, allPosts } = this.state
-    const newPosts = allPosts.slice(0, posts.length + postsPerPage)
-    this.setState({
-      posts: newPosts,
-    })
-  }
-
-  handleSearch = (e) => {
-    const { allPosts } = this.state
+  const handleSearch = (e) => {
     const { value } = e.target
-    this.setState({
-      searchValue: value,
-    })
-    const wanted = allPosts.filter((e) => {
-      return e.title.toLowerCase().includes(value.toLowerCase())
-    })
-
-    this.setState({
-      filteredPosts: wanted,
-    })
+    setSearchValue(value)
   }
 
-  render() {
-    const { posts, searchValue, allPosts, filteredPosts } =
-      this.state
-    const isEnPosts = posts.length === allPosts.length
-    return (
-      <>
-        <section className='container'>
-          <SearchBar
-            type='search'
-            value={searchValue}
-            onChange={this.handleSearch}
-            placeholder={'pesquise aqui'}
-          />
-          <div className='searchContainer'>
-            {!!searchValue && (
-              <>
-                <h1>Resultados: {filteredPosts.length}</h1>
-              </>
-            )}
-          </div>
-          {!searchValue && <Posts posts={posts} />}
-          {searchValue.length > 0 && (
-            <Posts posts={filteredPosts} />
+  const filteredPosts = searchValue
+    ? allPosts.filter((e) => {
+        return e.title.toLowerCase().includes(searchValue.toLowerCase())
+      })
+    : posts
+
+  useEffect(() => {
+    handleLoadPosts()
+  }, [])
+
+  const handleLoadPosts = async () => {
+    const postsAndPhotos = await loadPosts()
+    setPosts(postsAndPhotos.slice(0, postsPerPage))
+    setAllPosts(postsAndPhotos)
+  }
+
+  const loadMorePosts = () => {
+    setPosts(allPosts.slice(0, posts.length + postsPerPage))
+  }
+
+  return (
+    <>
+      <section className="container">
+        <SearchBar
+          type="search"
+          value={searchValue}
+          onChange={handleSearch}
+          placeholder={'pesquise aqui'}
+        />
+        <div className="searchContainer">
+          {!!searchValue && (
+            <>
+              <h1>Resultados: {filteredPosts.length}</h1>
+            </>
           )}
-          {filteredPosts.length === 0 && <h1>Sem posts</h1>}
-          <div className='btn-container'>
-            {!searchValue && (
-              <Button
-                onClick={this.loadMorePosts}
-                text={
-                  isEnPosts
-                    ? 'não tem mais blogs pra ver XC'
-                    : 'Ver mais'
-                }
-                disabled={isEnPosts}
-              ></Button>
-            )}
-          </div>
-        </section>
-      </>
-    )
-  }
+        </div>
+        {!searchValue && <Posts posts={posts} />}
+        {!!searchValue && <Posts posts={filteredPosts} />}
+        {filteredPosts.length === 0 && <h1>Sem posts</h1>}
+        <div className="btn-container">
+          {!searchValue && (
+            <Button
+              onClick={loadMorePosts}
+              disabled={isEnPosts}
+              text={isEnPosts ? 'não tem mais blogs pra ver XC' : 'Ver mais'}
+            ></Button>
+          )}
+        </div>
+      </section>
+    </>
+  )
 }
 
-export default Home
+Home.propTypes = {
+  pppage: number,
+}

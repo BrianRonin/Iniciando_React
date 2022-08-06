@@ -1,3 +1,4 @@
+import { func, string } from 'prop-types'
 import { Component } from 'react'
 import './styles.css'
 export class SearchBar extends Component {
@@ -14,4 +15,11 @@ export class SearchBar extends Component {
       </div>
     )
   }
+}
+
+SearchBar.propTypes = {
+  type: string,
+  value: string,
+  onChange: func,
+  placeholder: string,
 }
